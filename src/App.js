@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import useWindowSize from "./hooks/useWindowSize";
 import Login from "./components/Login";
+import Sidebar from "./components/Sidebar";
 import useAuthUser from "./hooks/useAuthUser";
 
 export default function App() {
@@ -9,15 +10,16 @@ export default function App() {
   // const [user] = useAuthState(auth);
   const user = useAuthUser();
 
-  // if (!user) {
-  //   return <Login />;
-  // }
+  if (!user) {
+    return <Login />;
+  }
 
-  // console.log({user});
-
+ 
   return (
     <div className="app" style={{ ...page }}>
-      App
+      <div className="app__body">
+        <Sidebar user={user} page={page} />
+      </div>
     </div>
   );
 }
