@@ -3,13 +3,24 @@ import { Avatar, IconButton } from "@material-ui/core";
 import "./Sidebar.css";
 import SidebarList from './SidebarList';
 import { Add, ExitToApp, Home, Message, PeopleAlt, SearchOutlined } from "@material-ui/icons";
-import { auth } from "../firebase";
+import { auth, createTimestamp, db } from "../firebase";
 import { NavLink, Switch, Route } from "react-router-dom";
 
 export default function Sidebar({ user, page }) {
   const [menu, setMenu] = React.useState(1);
   function signOut(){
     auth.signOut();
+  }
+
+  function createRoom() {
+    const roomName = prompt("Type the name of your room");
+    
+    if (roomName.trim()) {
+      db.collection('rooms').add({
+        name: roomName,
+        timestamp: createTimestamp(),
+      });
+    }
   }
 
   let Nav;
@@ -116,7 +127,7 @@ export default function Sidebar({ user, page }) {
     ) : null}
 
     <div className="sidebar__chat--addRoom">
-      <IconButton>
+      <IconButton onClick={createRoom} >
         <Add />
       </IconButton>
     </div>
