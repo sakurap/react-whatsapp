@@ -9,14 +9,14 @@ export default function useAuthUser() {
         if (user) {
             const ref = db.collection('users').doc(user.uid);
             ref.get().then(doc => {
-                if (doc.exists) {
+                if (!doc.exists) {
                     ref.set({
                         name: user.displayName,
                         photoURL: user.photoURL,
                         timestamp: createTimestamp()
-                    })
+                    });
                 }
-            })
+            });
         }
     }, [user]);
 

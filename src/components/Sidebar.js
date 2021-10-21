@@ -5,8 +5,13 @@ import SidebarList from './SidebarList';
 import { Add, ExitToApp, Home, Message, PeopleAlt, SearchOutlined } from "@material-ui/icons";
 import { auth, createTimestamp, db } from "../firebase";
 import { NavLink, Switch, Route } from "react-router-dom";
+import useRooms from "../hooks/useRooms";
 
 export default function Sidebar({ user, page }) {
+  const rooms = useRooms();
+
+  console.log({ rooms });
+
   const [menu, setMenu] = React.useState(1);
   function signOut(){
     auth.signOut();
@@ -14,7 +19,7 @@ export default function Sidebar({ user, page }) {
 
   function createRoom() {
     const roomName = prompt("Type the name of your room");
-    
+
     if (roomName.trim()) {
       db.collection('rooms').add({
         name: roomName,
